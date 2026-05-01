@@ -562,9 +562,36 @@
   }
 
   function handleSubmit() {
-    document.getElementById('main-form').style.display = 'none';
-    document.getElementById('success-screen').classList.add('visible');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    var data = {
+      name: document.getElementById('f-name').value,
+      business: document.getElementById('f-biz').value,
+      what_business_does: document.getElementById('f-what').value,
+      audience: document.getElementById('f-who').value,
+      bio: document.getElementById('f-bio').value,
+      website: document.getElementById('f-web').value,
+      social_links: document.getElementById('f-social').value,
+      topic_1: document.getElementById('t1').value,
+      topic_2: document.getElementById('t2').value,
+      topic_3: document.getElementById('t3').value,
+      audience_confirmed: 'Yes',
+      video_consent: 'Yes'
+    };
+
+    fetch('https://formspree.io/f/maqvnnnz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function(res) {
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('success-screen').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(function() {
+      document.getElementById('main-form').style.display = 'none';
+      document.getElementById('success-screen').classList.add('visible');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 </script>
 
