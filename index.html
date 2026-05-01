@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Scaled CEO Podcast — Guest Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0a0a;
+    color: #f0ede8;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page-wrapper {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  /* HEADER */
+  .form-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 0.5px solid rgba(240,237,232,0.15);
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.4);
+    margin-bottom: 1.25rem;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.15;
+    color: #f0ede8;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(240,237,232,0.6);
+    max-width: 540px;
+  }
+
+  .form-intro p + p {
+    margin-top: 1rem;
+  }
+
+  /* STEP DOTS */
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2.5rem;
+  }
+
+  .step-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(240,237,232,0.2);
+    transition: background 0.3s;
+  }
+
+  .step-dot.active {
+    background: #f0ede8;
+  }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.35);
+    margin-bottom: 1.75rem;
+  }
+
+  /* QUESTION BLOCKS */
+  .question-block {
+    margin-bottom: 2rem;
+  }
+
+  .question-block > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    color: #f0ede8;
+    line-height: 1.65;
+    margin-bottom: 0.75rem;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: rgba(240,237,232,0.45);
+    font-style: italic;
+    line-height: 1.65;
+    margin-bottom: 0.75rem;
+    margin-top: -0.25rem;
+  }
+
+  /* RADIO OPTIONS */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 0.5px solid rgba(240,237,232,0.18);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(240,237,232,0.75);
+    line-height: 1.5;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    user-select: none;
+  }
+
+  .radio-option:hover {
+    border-color: rgba(240,237,232,0.4);
+    color: #f0ede8;
+  }
+
+  .radio-option.selected {
+    border-color: rgba(240,237,232,0.7);
+    background: rgba(240,237,232,0.05);
+    color: #f0ede8;
+  }
+
+  .radio-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: #f0ede8;
+    cursor: pointer;
+  }
+
+  /* TEXT INPUTS */
+  input[type="text"],
+  input[type="url"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    background: rgba(240,237,232,0.04);
+    border: 0.5px solid rgba(240,237,232,0.18);
+    border-radius: 8px;
+    color: #f0ede8;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(240,237,232,0.25);
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: rgba(240,237,232,0.5);
+    background: rgba(240,237,232,0.06);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  /* TOPIC ROWS */
+  .topic-block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .topic-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .topic-num {
+    font-size: 12px;
+    color: rgba(240,237,232,0.3);
+    font-weight: 500;
+    padding-top: 13px;
+    min-width: 18px;
+    flex-shrink: 0;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(240,237,232,0.12);
+    margin: 2.5rem 0;
+  }
+
+  /* CONSENT BOX */
+  .consent-box {
+    background: rgba(240,237,232,0.04);
+    border: 0.5px solid rgba(240,237,232,0.15);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(240,237,232,0.5);
+    margin-bottom: 2rem;
+  }
+
+  /* BUTTONS */
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: transparent;
+    color: rgba(240,237,232,0.8);
+    border: 0.5px solid rgba(240,237,232,0.3);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .next-btn:hover {
+    background: rgba(240,237,232,0.07);
+    border-color: rgba(240,237,232,0.5);
+    color: #f0ede8;
+  }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 36px;
+    background: #f0ede8;
+    color: #0a0a0a;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .submit-btn:hover { opacity: 0.88; }
+
+  /* ERROR MESSAGES */
+  .error-msg {
+    font-size: 12px;
+    color: #e07a6a;
+    margin-top: 8px;
+    display: none;
+  }
+
+  /* FORM SECTIONS */
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+
+  /* STOP SCREENS */
+  .stop-screen,
+  .success-screen {
+    display: none;
+    padding: 4rem 2rem;
+    text-align: center;
+    border: 0.5px solid rgba(240,237,232,0.15);
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+
+  .stop-screen.visible,
+  .success-screen.visible {
+    display: block;
+  }
+
+  .stop-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    color: #f0ede8;
+    line-height: 1.25;
+  }
+
+  .stop-body {
+    font-size: 14px;
+    line-height: 1.85;
+    color: rgba(240,237,232,0.55);
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .stop-body strong {
+    color: rgba(240,237,232,0.8);
+    font-weight: 500;
+  }
+
+  .success-icon {
+    width: 40px;
+    height: 40px;
+    border: 0.5px solid rgba(240,237,232,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 16px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .page-wrapper { padding: 2.5rem 1.25rem 4rem; }
+    .form-title { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <div id="main-form">
+
+    <div class="form-header">
+      <p class="eyebrow">The Scaled CEO Podcast</p>
+      <h1 class="form-title">Guest Application</h1>
+      <div class="form-intro">
+        <p>The Scaled CEO is a podcast for business owners already operating at the 6–8 figure level. Every conversation goes deep — the decisions, the inflection points, the things that actually moved the needle. That's who's listening. And that's who we bring on.</p>
+        <p>If that's your world, this takes about five minutes.</p>
+      </div>
+    </div>
+
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+      <div class="step-dot" id="dot3"></div>
+    </div>
+
+    <!-- SECTION 1: PREQUALIFICATION -->
+    <div class="form-section active" id="section-1">
+
+      <p class="section-label">Before we continue</p>
+
+      <div class="question-block">
+        <label>The people you work with, speak to, or create content for — are they primarily established business owners operating at the 6–8 figure level?</label>
+        <div class="radio-group" id="rg-q1">
+          <label class="radio-option">
+            <input type="radio" name="q1" value="yes">
+            Yes — that's exactly who I work with and speak to
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="q1" value="no">
+            No — I work primarily with beginners or early-stage entrepreneurs
+          </label>
+        </div>
+        <p class="error-msg" id="err-q1">Please select an option to continue.</p>
+      </div>
+
+      <div class="question-block">
+        <label>This interview is a video recording. The footage may be used for marketing — our website, social platforms, and potentially our YouTube channel. We edit for quality and presentation, but we do not alter the context of what you said. Submitting this application confirms your consent.<br><br>Are you okay with that?</label>
+        <div class="radio-group" id="rg-q2">
+          <label class="radio-option">
+            <input type="radio" name="q2" value="yes">
+            Yes — I understand and I'm happy to proceed
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="q2" value="no">
+            No
+          </label>
+        </div>
+        <p class="error-msg" id="err-q2">Please select an option to continue.</p>
+      </div>
+
+      <button class="next-btn" onclick="handleSection1()">Continue →</button>
+
+    </div>
+
+    <!-- SECTION 2: ABOUT YOU -->
+    <div class="form-section" id="section-2">
+
+      <p class="section-label">Tell me about you</p>
+
+      <div class="question-block">
+        <label>Your full name</label>
+        <input type="text" id="f-name" placeholder="First and last name">
+      </div>
+
+      <div class="question-block">
+        <label>Business name</label>
+        <input type="text" id="f-biz" placeholder="">
+      </div>
+
+      <div class="question-block">
+        <label>What does your business do?</label>
+        <p class="hint">In your own words — not the polished version. Just tell me what you do and who you do it for.</p>
+        <textarea id="f-what" rows="4" placeholder=""></textarea>
+      </div>
+
+      <div class="question-block">
+        <label>Who is your audience?</label>
+        <p class="hint">Who are the people you typically work with or sell to?</p>
+        <textarea id="f-who" rows="3" placeholder=""></textarea>
+      </div>
+
+      <div class="question-block">
+        <label>Your bio</label>
+        <p class="hint">This goes in the episode intro and show notes. Write it the way you'd want to be introduced — not your LinkedIn headline.</p>
+        <textarea id="f-bio" rows="5" placeholder=""></textarea>
+      </div>
+
+      <div class="question-block">
+        <label>Your business website</label>
+        <input type="url" id="f-web" placeholder="https://...">
+      </div>
+
+      <div class="question-block">
+        <label>Your social links</label>
+        <p class="hint">Wherever you're most active — include as many as are relevant.</p>
+        <textarea id="f-social" rows="3" placeholder="Instagram: @handle&#10;LinkedIn: linkedin.com/in/...&#10;Other:"></textarea>
+      </div>
+
+      <button class="next-btn" onclick="handleSection2()">Continue to Topic Pitch →</button>
+
+    </div>
+
+    <!-- SECTION 3: TOPIC PITCH -->
+    <div class="form-section" id="section-3">
+
+      <p class="section-label">Your topic pitch</p>
+
+      <div class="question-block">
+        <label>Give me three topics you could speak to with real depth and specificity.</label>
+        <p class="hint">List all three. We'll review and come back to you with the one that fits the show best — or let you know this season isn't the right time.</p>
+        <div class="topic-block">
+          <div class="topic-row">
+            <span class="topic-num">01</span>
+            <textarea id="t1" rows="2" placeholder="Topic and a short description of what you'd cover"></textarea>
+          </div>
+          <div class="topic-row">
+            <span class="topic-num">02</span>
+            <textarea id="t2" rows="2" placeholder="Topic and a short description of what you'd cover"></textarea>
+          </div>
+          <div class="topic-row">
+            <span class="topic-num">03</span>
+            <textarea id="t3" rows="2" placeholder="Topic and a short description of what you'd cover"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="consent-box">
+        By submitting this application, you confirm that the interview may be recorded on video and that the footage may be used for marketing purposes — including our website, social platforms, and potentially our YouTube channel. We edit for quality and presentation. The context of what you said is never altered.
+      </div>
+
+      <button class="submit-btn" onclick="handleSubmit()">Submit Application</button>
+
+    </div>
+
+  </div><!-- /main-form -->
+
+  <!-- STOP: WRONG AUDIENCE -->
+  <div class="stop-screen" id="stop-audience">
+    <p class="stop-title">Not the right fit for this season.</p>
+    <p class="stop-body">The Scaled CEO audience are established business owners at the 6–8 figure level — so every guest conversation needs to speak directly to that world. This doesn't sound like the right match right now, but we appreciate you taking the time.</p>
+  </div>
+
+  <!-- STOP: NO VIDEO CONSENT -->
+  <div class="stop-screen" id="stop-video">
+    <p class="stop-title">We need video consent to move forward.</p>
+    <p class="stop-body">Video recording and the use of that footage for marketing is a firm part of how we operate the show. Without that agreement we're not able to proceed. Thank you for applying — we hope to cross paths another way.</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✓</div>
+    <p class="stop-title">Application received.</p>
+    <p class="stop-body">If you're selected for this season, you'll hear from our team at <strong>support@scaledceo.com</strong> — with the confirmed topic, your interview questions, and a link to book your recording day.<br><br>If it's not the right fit for this season, we'll let you know that too.</p>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+<script>
+  // Radio selection highlight
+  document.querySelectorAll('.radio-option').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var name = this.querySelector('input[type="radio"]').name;
+      document.querySelectorAll('[name="' + name + '"]').forEach(function(r) {
+        r.closest('.radio-option').classList.remove('selected');
+      });
+      this.classList.add('selected');
+    });
+  });
+
+  function getRadio(name) {
+    var el = document.querySelector('[name="' + name + '"]:checked');
+    return el ? el.value : null;
+  }
+
+  function setSection(n) {
+    document.querySelectorAll('.form-section').forEach(function(s) {
+      s.classList.remove('active');
+    });
+    document.getElementById('section-' + n).classList.add('active');
+    ['dot1','dot2','dot3'].forEach(function(id, i) {
+      document.getElementById(id).classList.toggle('active', i < n);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showStop(id) {
+    document.getElementById('main-form').style.display = 'none';
+    document.getElementById(id).classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleSection1() {
+    var q1 = getRadio('q1');
+    var q2 = getRadio('q2');
+    var ok = true;
+
+    document.getElementById('err-q1').style.display = 'none';
+    document.getElementById('err-q2').style.display = 'none';
+
+    if (!q1) { document.getElementById('err-q1').style.display = 'block'; ok = false; }
+    if (!q2) { document.getElementById('err-q2').style.display = 'block'; ok = false; }
+    if (!ok) return;
+
+    if (q1 === 'no') { showStop('stop-audience'); return; }
+    if (q2 === 'no') { showStop('stop-video'); return; }
+
+    setSection(2);
+  }
+
+  function handleSection2() {
+    setSection(3);
+  }
+
+  function handleSubmit() {
+    document.getElementById('main-form').style.display = 'none';
+    document.getElementById('success-screen').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
